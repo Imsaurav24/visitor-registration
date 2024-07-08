@@ -49,6 +49,47 @@
             <button type="button" onclick="verifyOTP()">Verify OTP</button>
         </div>
 
+        
+
+      
+
+    <button id="startBtn">Open WebCam</button>
+    <button id="captureBtn">Capture Selfie</button>
+    <video id="video" width="500" height="400"></video>
+    <canvas id="canvas" width="500" height="400"></canvas>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let startBtn = document.getElementById("startBtn");
+            let captureBtn = document.getElementById("captureBtn");
+            let video = document.getElementById("video");
+            let canvas = document.getElementById("canvas");
+            let context = canvas.getContext("2d");
+            let mediaDevices = navigator.mediaDevices;
+
+            startBtn.addEventListener("click", () => {
+                mediaDevices.getUserMedia({ video: true, audio: false })
+                    .then((stream) => {
+                        video.srcObject = stream;
+                        video.addEventListener("loadedmetadata", () => {
+                            video.play();
+                        });
+                    })
+                    .catch(alert);
+            });
+
+            captureBtn.addEventListener("click", () => {
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                let selfie = canvas.toDataURL("image/png");
+                console.log(selfie);
+                // You can now use the selfie variable to upload the image to a server or save it locally
+            });
+        });
+    </script>
+
+
+
+
         <div id="result"></div>
     </div>
     <script src="script.js"></script>
